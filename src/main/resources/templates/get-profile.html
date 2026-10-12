@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<div align="center">
+    <div th:replace="~{header :: header}"></div>
+    <h2>My Profile</h2>
+    <P>Username <strong th:text="${profile.username}"></strong></P>
+    <P>Email <strong th:text="${profile.email}"></strong></P>
+    <P>Role <strong th:text="${profile.roleName}"></strong></P>
+   <a th:href="@{/api/v1/users/profile/edit}"><button>Edit Profile</button></a>
+</div>
+</body>
+</html>

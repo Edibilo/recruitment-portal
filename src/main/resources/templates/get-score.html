@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Score</title>
+</head>
+<body>
+<div align="center">
+    <div th:replace="~{header :: header}"></div>
+    <h2>Score Form</h2>
+    <p>Job tittle  <strong th:text="${applicationDetails.jobName}">
+    </strong> Applicant Name <strong th:text="${applicationDetails.applicantName}"></strong></p>
+    <form method="post" th:object="${score}">
+        <label>Enter Mark
+            <input type="number" required th:field="*{mark}">
+        </label><br/><br/>
+        <button>Save</button>
+    </form>
+</div>
+</body>
+</html>

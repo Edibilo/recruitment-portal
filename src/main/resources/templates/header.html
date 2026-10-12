@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+<body>
+<div th:fragment="header">
+    <nav>
+        <a th:href="@{/api/v1/roles}" sec:authorize="hasRole('ADMIN')">Role</a>
+        <a th:href="@{/api/v1/auth/register}" sec:authorize="isAnonymous()">Register</a>
+        <a th:href="@{/api/v1/auth/login}" sec:authorize="isAnonymous()">Login</a>
+        <a th:href="@{/api/v1/users}" sec:authorize="hasRole('ADMIN')">User</a>
+        <a th:href="@{/api/v1/dashboards}" sec:authorize="isAuthenticated()">Dashboard</a>
+        <a th:href="@{/api/v1/jobs}" sec:authorize="hasAnyRole('ADMIN','RECRUITER','APPLICANT')">Jobs</a>
+        <a th:href="@{/api/v1/users/profile}" sec:authorize="isAuthenticated()">Profile</a>
+        <a th:href="@{/api/v1/auth/logout}" sec:authorize="isAuthenticated()">Logout</a>
+    </nav>
+</div>
+</body>
+</html>

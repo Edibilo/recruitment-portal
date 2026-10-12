@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Job</title>
+</head>
+<body>
+<div align="center">
+    <p th:if="${success}" th:text="${success}" style="color:green"></p>
+    <p th:if="${fail}" th:text="${fail}" style="color:red"></p>
+    <div th:replace="~{header :: header}"></div>
+
+    <form method="post" th:object="${job}" th:action="@{/api/v1/jobs}" sec:authorize="hasAnyRole('ADMIN','RECRUITER')">
+        <input type="hidden" th:field="*{id}">
+        <h2>Jobs</h2>
+        <label>Job Name
+            <input type="text" th:field="*{name}" required placeholder="Enter Job Name">
+        </label><br/>
+        <label>Job Description
+            <input type="text" th:field="*{description}" required placeholder="Enter Job Description">
+        </label><br/>
+        <label>Deadline Date
+            <input type="date" th:field="*{deadline}" required placeholder="Enter Deadline Date">
+        </label><br/><br/>
+        <button>Save</button>
+    </form><br/>
+    <h2>Job List</h2>
+    <table border="4">
+        <thead>
+        <th>#</th>
+        <th>Job Name</th>
+        <th>Job Description</th>
+        <th>Created At</th>
+        <th>End Date</th>
+        <th>Actions</th>
+        </thead>
+        <tbody>
+        <tr th:each="j,stat : ${jobs}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${j.name}"></td>
+            <td th:text="${j.description}"></td>
+            <td th:text="${j.createdAt}"></td>
+            <td th:text="${j.deadline}"></td>
+            <td>
+                <a sec:authorize="hasAnyRole('RECRUITER','ADMIN')"
+                th:href="@{/api/v1/jobs/{jobId}/edit(jobId=${j.id})}"><button>Edit</button>
+                </a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/api/v1/jobs/{jobId}/delete(jobId=${j.id})}"
+                ><button>Delete</button>
+                </a>
+                <a sec:authorize="hasRole('APPLICANT')" th:href="@{/api/v1/jobs/{jobId}/apply(jobId=${j.id})}">
+                    <button>Apply</button>
+                </a>
+                <a sec:authorize="hasAnyRole('RECRUITER')"
+                   th:href="@{/api/v1/jobs/{jobId}/applications(jobId=${j.id})}"><button>Show Applications</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

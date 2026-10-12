@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+<div align="center">
+    <div th:replace="~{header :: header}"></div>
+    <div sec:authorize="hasRole('ADMIN')">
+        <h2>My Dashboard</h2>
+        <p>Total Users <strong th:text="${dashboard.totalUser}"></strong></p>
+        <p>Total Admins <strong th:text="${dashboard.totalAdmin}"></strong></p>
+        <p>Total Recruiters <strong th:text="${dashboard.totalRecruiter}"></strong></p>
+        <p>Total Applicants <strong th:text="${dashboard.totalApplicant}"></strong></p>
+        <p>Total Jobs <strong th:text="${dashboard.totalJob}"></strong></p>
+        <p>Total Applications <strong th:text="${dashboard.totalApplication}"></strong></p>
+        <p>Pending Applications <strong th:text="${dashboard.pendingApplication}"></strong></p>
+        <p>In Progress Applications <strong th:text="${dashboard.inProgressApplication}"></strong></p>
+        <p>Success Applications <strong th:text="${dashboard.successApplication}"></strong></p>
+        <p>Rejected Applications <strong th:text="${dashboard.rejectApplication}"></strong></p>
+    </div>
+    <div sec:authorize="hasRole('APPLICANT')">
+        <h2>My Applications</h2>
+        <table border="3">
+            <thead>
+            <th>#</th>
+            <th>Job Name</th>
+            <th>Status</th>
+            </thead>
+            <tbody>
+            <tr th:each="a,stat : ${myApplications}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${a.jobName}"></td>
+                <td th:text="${a.applicationStatus}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div sec:authorize="hasRole('RECRUITER')">
+        <h2> Applications</h2>
+        <table border="3">
+            <thead>
+            <th>#</th>
+            <th>Applicant Name</th>
+            <th>Job Name</th>
+            <th>Status</th>
+            </thead>
+            <tbody>
+            <tr th:each="a,stat : ${allApplications}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${a.applicantName}"></td>
+                <td th:text="${a.jobName}"></td>
+                <td th:text="${a.applicationStatus}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

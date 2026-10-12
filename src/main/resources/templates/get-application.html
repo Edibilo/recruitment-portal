@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Application</title>
+</head>
+<body>
+<div align="center">
+    <div th:replace="~{header :: header}"></div>
+    <div sec:authorize="hasRole('APPLICANT')">
+        <p th:if="${success}" th:text="${success}" style="color:green"></p>
+        <p th:if="${fail}" th:text="${fail}" style="color:red"></p>
+        <h2>Application Form</h2>
+        <p>Job # <strong th:text="${job.id}"></strong>  Job Tittle <strong th:text="${job.name}"></strong> </p>
+        <form method="post" th:object="${application}" th:action="@{/api/v1/jobs/{jobId}/apply(jobId=${job.id})}" >
+            <input type="text" th:field="*{resume}" placeholder="Enter Resume" required><br/>
+            <button>Save</button>
+        </form>
+    </div>
+    <div sec:authorize="hasRole('RECRUITER')">
+        <h2>Applications For Job <strong th:text="${job.name}"></strong></h2>
+        <table border="1">
+            <thead>
+            <th>#</th>
+            <th>Job Name</th>
+            <th>Applicant Name</th>
+            <th>Status</th>
+            <th>Actions</th>
+            </thead>
+            <tbody>
+            <tr th:each="a,stat : ${applicationsByJobId}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${a.applicantName}"></td>
+                <td th:text="${a.jobName}"></td>
+                <td th:text="${a.applicationStatus}"></td>
+                <td>
+                    <a th:each="status : ${statuses}"
+                       th:href="@{/api/v1/applications/{applicationId}/{status}/status(applicationId=${a.applicationId},status=${status})}">
+                        <button th:text="${status}"></button>
+                    </a>
+                    <a th:href="@{/api/v1/applications/{applicationId}/score(applicationId=${a.applicationId})}">
+                        <button >Add Score</button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

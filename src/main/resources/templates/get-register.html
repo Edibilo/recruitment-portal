@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<div align="center">
+    <p th:if="${success}" th:text="${success}" style="color:green"></p>
+    <p th:if="${fail}" th:text="${fail}" style="color:red"></p>
+    <div th:replace="~{header :: header}"></div>
+    <h2>User Form</h2>
+    <form method="post" th:object="${user}" th:action="@{/api/v1/auth/register}">
+        <input type="hidden" th:field="*{id}">
+        <input type="text" th:field="*{username}" placeholder="Enter Username" required><br/>
+        <input type="email" th:field="*{email}" placeholder="Enter Email" required><br/>
+        <input type="password" th:field="*{password}" placeholder="Enter Password" required><br/><br/>
+        <select sec:authorize="hasRole('ADMIN')" th:field="*{roleId}">
+            <option value="">Select Role</option>
+            <option th:each="r : ${roles}" th:text="${r.name}" th:value="${r.id}"></option>
+        </select><br/>
+        <input sec:authorize="!hasRole('ADMIN')" type="hidden" th:field="*{roleId}">
+        <button th:text="${user.id==null ? 'REGISTER' : 'UPDATE' }"></button>
+    </form>
+</div>
+</body>
+</html>
