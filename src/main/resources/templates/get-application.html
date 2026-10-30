@@ -25,20 +25,22 @@
             <th>Job Name</th>
             <th>Applicant Name</th>
             <th>Status</th>
+            <th>Score</th>
             <th>Actions</th>
             </thead>
             <tbody>
-            <tr th:each="a,stat : ${applicationsByJobId}">
+            <tr th:each="s,stat : ${scoresByJobId}">
                 <td th:text="${stat.count}"></td>
-                <td th:text="${a.applicantName}"></td>
-                <td th:text="${a.jobName}"></td>
-                <td th:text="${a.applicationStatus}"></td>
+                <td th:text="${s.applicantName}"></td>
+                <td th:text="${s.jobName}"></td>
+                <td th:text="${s.applicationStatus}"></td>
+                <td th:text="${s.mark}"></td>
                 <td>
                     <a th:each="status : ${statuses}"
-                       th:href="@{/api/v1/applications/{applicationId}/{status}/status(applicationId=${a.applicationId},status=${status})}">
+                       th:href="@{/api/v1/applications/{applicationId}/{status}/status(applicationId=${s.applicationId},status=${status})}">
                         <button th:text="${status}"></button>
                     </a>
-                    <a th:href="@{/api/v1/applications/{applicationId}/score(applicationId=${a.applicationId})}">
+                    <a th:href="@{/api/v1/applications/{applicationId}/score(applicationId=${s.applicationId})}">
                         <button >Add Score</button>
                     </a>
                 </td>

@@ -52,7 +52,7 @@
                     <button>Apply</button>
                 </a>
                 <a sec:authorize="hasAnyRole('RECRUITER')"
-                   th:href="@{/api/v1/jobs/{jobId}/applications(jobId=${j.id})}"><button>Show Applications</button>
+                   th:href="@{/api/v1/jobs/{jobId}/score(jobId=${j.id})}"><button>Show Applications</button>
                 </a>
             </td>
         </tr>
